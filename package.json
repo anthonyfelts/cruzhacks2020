@@ -1,0 +1,19 @@
+{
+  "name": "ucsc-dining-assistant",
+  "version": "1.0.0",
+  "description": "repo for 2020 cruzhacks project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anthonyfelts/cruzhacks2020.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anthonyfelts/cruzhacks2020/issues"
+  },
+  "homepage": "https://github.com/anthonyfelts/cruzhacks2020#readme"
+}
