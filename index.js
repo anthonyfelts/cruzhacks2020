@@ -3,7 +3,6 @@ const axios = require("axios");
 const $ = require("cheerio");
 
 const instance = axios.create({
-  // baseURL: '',
   timeout: 1000,
   headers: {
     'Cookie' : 'SavedAllergens=; SavedWebCodes=; WebInaCartLocation=40; WebInaCartDates=; WebInaCartMeals=; WebInaCartRecipes=; WebInaCartQtys=',
@@ -15,14 +14,19 @@ const fetchData = async () => {
     return $.load(result.data);
 };
 
+let data = {
+  "Breakfast": [],
+  "Lunch": [],
+  "Dinner": []
+};
 
+fetchData().then($ => {
+  $("body > table > tbody > tr > td > table").map((_, item) => {
+    const meal = $(item).find(".shortmenumeals").text();
+    if(meal != "") {
+      $(item).find(".shortmenurecipes > span").each((_, item) => data[meal].push(item.children[0].data.trim()));
+  }});
 
-fetchData().then(data => {
-  const meals = data(".shortmenumeals").map((_, item) => item.children[0].data).get();
-
-  console.log(meals);
-
-  data(".shortmenurecipes > span").map((_, item) => console.log(item.children[0].data));
-
+  console.log(data);
 });
 
