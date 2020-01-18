@@ -17,7 +17,7 @@ const dininghall = {
   PORTER_KRESGE: "Porter/Kresge"
 };
 
-const getMenu = (dh, meal) => {
+const getMenu = (dh) => {
   let data = {
     "Breakfast": [],
     "Lunch": [],
@@ -95,15 +95,15 @@ const menuCurrent = dininghall => {
   let today = new Date();
   let time = today.getHours();
 
-  if (time < 12) return menuMeal(dininghall, BREAKFAST);
-  else if (time >= 12 && time < 5) return menuMeal(dininghall, LUNCH);
-  else if (time >= 5 && time < 9) return menuMeal(dininghall, DINNER);
-  else return menuMeal(dininghall, LATENIGHT);
+  if (time < 12) return menuMeal(dininghall, "Breakfast");
+  else if (time >= 12 && time < 5) return menuMeal(dininghall, "Lunch");
+  else if (time >= 5 && time < 9) return menuMeal(dininghall, "Dinner");
+  else return menuMeal(dininghall, "Late Night");
   
 };
 menuCurrent(null);
 const menuMeal = (dininghall, time) => {
-  
+   getMenu
 };
 
 const menuItem = item => {
