@@ -10,6 +10,24 @@ const instance = axios.create({
 });
 
 const getMenu = (dh, meal) => {
+  let data = {
+    "Breakfast": [],
+    "Lunch": [],
+    "Dinner": [],
+    "Late Night": []
+  };
+
+  return fetchData(buildURL(dh)).then($ => {
+    $("body > table > tbody > tr > td > table").map((_, item) => {
+      const meal = $(item).find(".shortmenumeals").text();
+      if(meal != "") {
+        $(item).find(".shortmenurecipes > span").each((_, item) => data[meal].push(item.children[0].data.trim()));
+    }});
+    return data;
+  });
+};
+
+const buildURL = (dh) => {
   const diningHallNums = {
     "nineTen" : "40",
     "cowell"  : "05",
@@ -23,23 +41,7 @@ const getMenu = (dh, meal) => {
     naFlag: 1
   };
 
-  const url = "?" + Object.keys(paramData).map((k,_) => encodeURIComponent(k) + "=" + encodeURIComponent(paramData[k])).join("&");
-
-  let data = {
-    "Breakfast": [],
-    "Lunch": [],
-    "Dinner": [],
-    "Late Night": []
-  };
-
-  return fetchData(url).then($ => {
-    $("body > table > tbody > tr > td > table").map((_, item) => {
-      const meal = $(item).find(".shortmenumeals").text();
-      if(meal != "") {
-        $(item).find(".shortmenurecipes > span").each((_, item) => data[meal].push(item.children[0].data.trim()));
-    }});
-    return data;
-  });
+  return "?" + Object.keys(paramData).map((k,_) => encodeURIComponent(k) + "=" + encodeURIComponent(paramData[k])).join("&");
 };
 
 const fetchData = async (siteUrl) => {
