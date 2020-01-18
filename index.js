@@ -1,32 +1,50 @@
-const siteUrl = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=40&locationName=Colleges+Nine+%26+Ten+Dining+Hall&naFlag=1";
 const axios = require("axios");
 const $ = require("cheerio");
 
 const instance = axios.create({
+  baseURL: "https://nutrition.sa.ucsc.edu/shortmenu.aspx",
   timeout: 1000,
   headers: {
     'Cookie' : 'SavedAllergens=; SavedWebCodes=; WebInaCartLocation=40; WebInaCartDates=; WebInaCartMeals=; WebInaCartRecipes=; WebInaCartQtys=',
   }
 });
 
-const fetchData = async () => {
+const getMenu = (dh, meal) => {
+  const diningHallNums = {
+    "nineTen" : 40,
+    "cowell"  : 0,
+    "crown"   : 0,
+    "rc"      : 0,
+    "porter"  : 0
+  };
+
+  const paramData = {
+    locationNum: diningHallNums[dh],
+    naFlag: 1
+  };
+
+  const url = "?" + Object.keys(paramData).map((k,_) => encodeURIComponent(k) + "=" + encodeURIComponent(paramData[k])).join("&");
+
+  let data = {
+    "Breakfast": [],
+    "Lunch": [],
+    "Dinner": []
+  };
+
+  return fetchData(url).then($ => {
+    $("body > table > tbody > tr > td > table").map((_, item) => {
+      const meal = $(item).find(".shortmenumeals").text();
+      if(meal != "") {
+        $(item).find(".shortmenurecipes > span").each((_, item) => data[meal].push(item.children[0].data.trim()));
+    }});
+    return data;
+  });
+};
+
+const fetchData = async (siteUrl) => {
     const result = await instance.get(siteUrl);
     return $.load(result.data);
 };
 
-let data = {
-  "Breakfast": [],
-  "Lunch": [],
-  "Dinner": []
-};
 
-fetchData().then($ => {
-  $("body > table > tbody > tr > td > table").map((_, item) => {
-    const meal = $(item).find(".shortmenumeals").text();
-    if(meal != "") {
-      $(item).find(".shortmenurecipes > span").each((_, item) => data[meal].push(item.children[0].data.trim()));
-  }});
-
-  console.log(data);
-});
-
+getMenu("nineTen", "").then(console.log);
