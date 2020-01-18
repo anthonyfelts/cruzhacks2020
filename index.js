@@ -1,6 +1,6 @@
 const siteUrl = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=40&locationName=Colleges+Nine+%26+Ten+Dining+Hall&naFlag=1";
 const axios = require("axios");
-const cheerio = require("cheerio");
+const $ = require("cheerio");
 
 const instance = axios.create({
   // baseURL: '',
@@ -12,12 +12,17 @@ const instance = axios.create({
 
 const fetchData = async () => {
     const result = await instance.get(siteUrl);
-    return cheerio.load(result.data);
+    return $.load(result.data);
 };
 
-// fetchData();
-fetchData().then(data => console.log(data.html()));
 
-// const $ = await fetchData();
-// const postJobButton = $('.top > .action-post-job').text();
-// console.log(postJobButton) // Logs 'Post a Job'
+
+fetchData().then(data => {
+  const meals = data(".shortmenumeals").map((_, item) => item.children[0].data).get();
+
+  console.log(meals);
+
+  data(".shortmenurecipes > span").map((_, item) => console.log(item.children[0].data));
+
+});
+
