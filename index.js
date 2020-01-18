@@ -5,17 +5,17 @@ const instance = axios.create({
   baseURL: "https://nutrition.sa.ucsc.edu/shortmenu.aspx",
   timeout: 1000,
   headers: {
-    'Cookie' : 'SavedAllergens=; SavedWebCodes=; WebInaCartLocation=40; WebInaCartDates=; WebInaCartMeals=; WebInaCartRecipes=; WebInaCartQtys=',
+    'Cookie' : 'WebInaCartLocation=; WebInaCartDates=; WebInaCartMeals=; WebInaCartRecipes=; WebInaCartQtys=',
   }
 });
 
 const getMenu = (dh, meal) => {
   const diningHallNums = {
-    "nineTen" : 40,
-    "cowell"  : 0,
-    "crown"   : 0,
-    "rc"      : 0,
-    "porter"  : 0
+    "nineTen" : "40",
+    "cowell"  : "05",
+    "crown"   : "20",
+    "rc"      : "30",
+    "porter"  : "25"
   };
 
   const paramData = {
@@ -28,7 +28,8 @@ const getMenu = (dh, meal) => {
   let data = {
     "Breakfast": [],
     "Lunch": [],
-    "Dinner": []
+    "Dinner": [],
+    "Late Night": []
   };
 
   return fetchData(url).then($ => {
