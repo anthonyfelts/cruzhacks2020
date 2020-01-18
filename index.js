@@ -1,7 +1,10 @@
-const siteUrl = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=40&locationName=Colleges+Nine+%26+Ten+Dining+Hall&naFlag=1";
+const siteUrl = "https://nutrition.sa.ucsc.edu/";
 const axios = require("axios");
+const cheerio = require("cheerio");
 
 const fetchData = async () => {
-  const result = await axios.get(siteUrl);
-  return cheerio.load(result.data);
+    const result = await axios.get(siteUrl);
+    return cheerio.load(result.data);
 };
+
+fetchData().then(data => console.log(data.html()));
