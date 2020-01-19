@@ -26,8 +26,8 @@ We are hoping to add more user-specific intents to the integration including sup
   * streamline architecture and datapath
 ##### Tier 2
   * Transition to Postgres
-  * Continuely improve fuzzy queries and resolve any issues that come up
+  * Continuely improve and harden voice queries and resolve any issues that come up
 ##### Tier 3
   * Local device based favorites
-  * Allergy/Preference customizations
+  * Allergy/Dietary Restrictions customizations
 
