@@ -5,7 +5,7 @@ const instance = axios.create({
   baseURL: "https://nutrition.sa.ucsc.edu/shortmenu.aspx",
   timeout: 1000,
   headers: {
-    'Cookie' : 'WebInaCartLocation=; WebInaCartDates=; WebInaCartMeals=; WebInaCartRecipes=; WebInaCartQtys=',
+    'Cookie': 'WebInaCartLocation=; WebInaCartDates=; WebInaCartMeals=; WebInaCartRecipes=; WebInaCartQtys=',
   }
 });
 
