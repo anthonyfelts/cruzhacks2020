@@ -1,5 +1,5 @@
 const { dininghall, meal } = require("./constants");
-const { MenuCache } = require("./db");
+const { Menu, withDatabase } = require("./db");
 
 const axios = require("axios");
 const $ = require("cheerio");
@@ -45,6 +45,24 @@ const sanitizeMealItems = items => {
   return out;
 };
 
+const scrapeMenu = dh => {
+  getMenu(dh).then(menu => {
+    withDatabase(client => {
+      const menuCache = Menu.findOneAndUpdate({dininghall: dh}, 
+        { $set: {
+            dininghall: dh,
+            data: menu
+          }
+        }, { upsert: true },
+        (err, doc) => {
+          if(err) {
+            console.error("Error inserting dining hall menu: ", err);
+          }
+        });
+    });
+  });
+};
+
 const getMenu = (dh) => {
   let data = {
     "Breakfast": [],
@@ -59,8 +77,8 @@ const getMenu = (dh) => {
       if(meal != "") {
         $(item).find(".shortmenurecipes > span").each((_, item) => data[meal].push(item.children[0].data.trim()));
     }});
-    return sanitizeMealItems(data);
+    return Object.entries(sanitizeMealItems(data)).map((k,i) => ({ meal: k[0], menu: k[1] }));
   });
 };
 
-module.exports = { getMenu };
+module.exports = { scrapeMenu };

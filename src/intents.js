@@ -1,5 +1,6 @@
 const { dininghall, meal } = require("./constants");
-const { getMenu } = require("./scrape");
+const { Menu, withDatabase } = require("./db");
+const { scrapeMenu } = require("./scrape");
 const { DateTime } = require("luxon");
 
 const makeResponse = (dininghall, meal, arrayMenu) => {
@@ -35,8 +36,15 @@ const prettyList = arrayMenu => {
   return commaMenu.join(', ') + ", and " + andMenu;
 };
 
-// Intent handlers
+const getMenu = dh => {
+  return new Promise((resolve, reject) => {
+    withDatabase(client => {
+      resolve(Menu.findOne({dininghall: dh}).exec());
+    });
+  });
+};
 
+// Intent handlers
 const menuCurrent = dh => {
   let time = DateTime.local().setZone('America/Los_Angeles').toLocal().hour;
 
@@ -47,12 +55,15 @@ const menuCurrent = dh => {
 };
 
 const menuMeal = async (dh, meal) => {
+  await scrapeMenu(dh);
   const menu = await getMenu(dh);
-  return makeResponse(dh, meal, menu[meal]);
+  return makeResponse(dh, meal, menu.data.find(x => x.meal == meal).menu);
 };
 
 const menuItem = item => {
 
 };
+
+menuMeal(dininghall.COWELL_STEVENSON, "Breakfast").then(console.log);
 
 module.exports = { menuCurrent, menuMeal, menuItem };
