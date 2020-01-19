@@ -1,4 +1,5 @@
-const { dininghall, meal } = require("./constants")
+const { dininghall, meal } = require("./constants");
+const { MenuCache } = require("./db");
 
 const axios = require("axios");
 const $ = require("cheerio");
