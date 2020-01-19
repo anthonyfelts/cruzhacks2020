@@ -9,6 +9,14 @@ const instance = axios.create({
   }
 });
 
+const dininghall = {
+  NINE_TEN: "9/10",
+  COWELL_STEVENSON: "Cowell/Stevenson",
+  CROWN_MERRILL: "Crown/Merrill",
+  RCC_OAKES: "RCC/Oakes",
+  PORTER_KRESGE: "Porter/Kresge"
+};
+
 const getMenu = (dh, meal) => {
   let data = {
     "Breakfast": [],
@@ -28,16 +36,17 @@ const getMenu = (dh, meal) => {
 };
 
 const buildURL = (dh) => {
-  const diningHallNums = {
-    "nineTen" : "40",
-    "cowell"  : "05",
-    "crown"   : "20",
-    "rc"      : "30",
-    "porter"  : "25"
-  };
+  const diningHallNums = dh => {
+    switch(dh) {
+      case dininghall.NINE_TEN: return "40";
+      case dininghall.COWELL_STEVENSON: return "05";
+      case dininghall.CROWN_MERRILL: return "20";
+      case dininghall.RCC_OAKES: return "30";
+      case dininghall.PORTER_KRESGE: return "25";
+    }};
 
   const paramData = {
-    locationNum: diningHallNums[dh],
+    locationNum: diningHallNums(dh),
     naFlag: 1
   };
 
@@ -59,7 +68,9 @@ const sanitizeMealItems = items => {
   return out;
 };  
 
-module.exports = async function (context, req) {
+// getMenu(dininghall.COWELL_STEVENSON, "").then(console.log);
+
+module.exports = async (context, req) => {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     context.res = {
