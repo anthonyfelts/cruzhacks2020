@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "0.19.1",
     "cheerio": "1.0.0-rc.3",
-    "luxon": "^1.21.3"
+    "luxon": "^1.21.3",
+    "mongoose": "5.8.9"
   }
 }
