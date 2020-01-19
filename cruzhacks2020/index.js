@@ -148,7 +148,7 @@ module.exports = async (context, req) => {
 // MENU OPTIONS HERE
 
 const menuCurrent = dh => {
-  let time = DateTime.local().setZone('America/Los_Angeles').toLocal();
+  let time = DateTime.local().setZone('America/Los_Angeles').toLocal().hour;
 
   if (time < 12) return menuMeal(dh, "Breakfast");
   else if (time >= 12 && time < 5) return menuMeal(dh, "Lunch");
