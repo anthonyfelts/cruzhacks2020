@@ -70,8 +70,36 @@ const sanitizeMealItems = items => {
 
 // MAKE RESPONSE AND PRETTY LIST HERE
 
-const makeResponse = (dh, arrayMenu) => {
-
+const makeResponse = (dininghall, meal, arrayMenu) => {
+  
+  //CASE: Empty arrayMenu
+  if (arrayMenu.length == 0){
+    
+    //Create an array with multiple variations of the same response
+    let noMenuResponseArray = [
+      `I'm sorry, but there is no menu available for ${meal} at ${dininghall} dining hall`,
+      `Unfortunately, no menu is available for ${meal} at ${dininghall} dining hall`,
+      `Sadly, ${dininghall} dininghall has no menu available for ${meal}.`
+      ]
+    
+    //Return a random response from the array
+    let randomInt = Math.floor(Math.random() * noMenuResponseArray.length);
+    return noMenuResponseArray[randomInt];
+  }
+  
+  //Pull cleaned array from prettyList
+  let prettyListString = prettyList(arrayMenu); //is this correct way to use func?
+  
+  //CASE: menuMeal
+  
+  let menuMealResponseArray = [
+      `Today for ${meal}, ${dininghall} dining hall is serving "${prettyListString}.`
+      `${dininghall} dining hall is serving ${prettyListString} for ${meal} today.` //if the prettyList is too long, this is not a good response
+      ]
+      
+      let randomInt = Math.floor(Math.random() * menuMealResponseArray.length);
+      return menuMealResponseArray[randomInt];
+  
 };
 
 const prettyList = arrayMenu => {
