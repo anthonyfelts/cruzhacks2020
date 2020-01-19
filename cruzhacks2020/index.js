@@ -93,7 +93,7 @@ const makeResponse = (dininghall, meal, arrayMenu) => {
   //CASE: menuMeal
   
   let menuMealResponseArray = [
-      `Today for ${meal}, ${dininghall} dining hall is serving "${prettyListString}.`
+      `Today for ${meal}, ${dininghall} dining hall is serving "${prettyListString}.`,
       `${dininghall} dining hall is serving ${prettyListString} for ${meal} today.` //if the prettyList is too long, this is not a good response
       ]
       
@@ -108,15 +108,28 @@ const prettyList = arrayMenu => {
   return commaMenu.join(', ') + ", and " + andMenu;
 };
 
-getMenu(dininghall.COWELL_STEVENSON, "").then(x => console.log(prettyList(x["Dinner"])));
+// getMenu(dininghall.COWELL_STEVENSON, "").then(x => console.log(prettyList(x["Dinner"])));
 
 module.exports = async (context, req) => {
-    context.log('JavaScript HTTP trigger function processed a request.');
+  const ok = text => { return { status: 200, body: {fulfillmentText: text}}};
 
-    context.res = {
-        status: 200,
-        body: {fulfillmentText: "Hello, azure world"}
-    };
+  const intent = req.body.queryResult.intent.name;
+  switch(intent) {
+    case "projects/dininghallagent-wxjsso/agent/intents/a7819adb-5c87-46ba-99c3-dde1fe271bca":
+      // DiningHallMenuCurrent
+      const dh = req.body.queryResult.parameters.DiningHall;
+      const menu = await menuCurrent(dh);
+
+      context.res = ok(menu);
+      break;
+    default:
+      console.error(`Unable to handle intent ${intent}`);
+      context.res = {
+        status: 400,
+        body: { fulfillmentText: "Sorry, I don't know how to respond to that." }
+      };
+      break;
+  }
 };
 
 // MENU OPTIONS HERE
@@ -134,7 +147,7 @@ const menuCurrent = dininghall => {
 const menuMeal = async (dh, meal) => {
   const menu = await getMenu(dh);
   console.log(menu[meal]);
-  return makeResponse(dh, menu[meal]);
+  return makeResponse(dh, meal, menu[meal]);
 };
 
 const menuItem = item => {
