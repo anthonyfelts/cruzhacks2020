@@ -66,7 +66,17 @@ const sanitizeMealItems = items => {
     out[k] = items[k].filter(item => !wordsToDelete.includes(item.toLowerCase()));
   });
   return out;
-};  
+};
+
+// MAKE RESPONSE AND PRETTY LIST HERE
+
+const makeResponse = arrayMenu => {
+
+};
+
+const prettyList = arrayMenu => {
+
+};
 
 // getMenu(dininghall.COWELL_STEVENSON, "").then(console.log);
 
@@ -77,4 +87,18 @@ module.exports = async (context, req) => {
         status: 200,
         body: {fulfillmentText: "Hello, azure world"}
     };
+};
+
+// MENU OPTIONS HERE
+
+const menuCurrent = dininghall => {
+
+};
+
+const menuMeal = (dininghall, time) => {
+
+};
+
+const menuItem = item => {
+
 };
