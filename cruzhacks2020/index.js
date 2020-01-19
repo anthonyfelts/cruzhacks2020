@@ -75,10 +75,12 @@ const makeResponse = arrayMenu => {
 };
 
 const prettyList = arrayMenu => {
-
+  const commaMenu = arrayMenu.slice(0, -1);
+  const andMenu = arrayMenu.slice(-1);
+  return commaMenu.join(', ') + ", and " + andMenu;
 };
 
-// getMenu(dininghall.COWELL_STEVENSON, "").then(console.log);
+getMenu(dininghall.COWELL_STEVENSON, "").then(x => console.log(prettyList(x["Dinner"])));
 
 module.exports = async (context, req) => {
     context.log('JavaScript HTTP trigger function processed a request.');
