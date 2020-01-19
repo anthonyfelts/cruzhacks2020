@@ -23,7 +23,7 @@ const getMenu = (dh, meal) => {
       if(meal != "") {
         $(item).find(".shortmenurecipes > span").each((_, item) => data[meal].push(item.children[0].data.trim()));
     }});
-    return data;
+    return sanitizeMealItems(data);
   });
 };
 
@@ -51,3 +51,13 @@ const fetchData = async (siteUrl) => {
 
 
 getMenu("nineTen", "").then(console.log);
+
+const sanitizeMealItems = items => {
+  const wordsToDelete = ['condiments', 'black beans', "chef's special", 'bar indian', 'bar carribean', 'bar pasta', 'hawaiian bar', 'steamed rice', 'bar rice bowl', 'steamed basmati rice', 'steamed brown rice', 'thai green curry sauce'];
+
+  var out = {};
+  Object.keys(items).map(k => {
+    out[k] = items[k].filter(item => !wordsToDelete.includes(item.toLowerCase()));
+  });
+  return out;
+};  
