@@ -49,9 +49,6 @@ const fetchData = async (siteUrl) => {
     return $.load(result.data);
 };
 
-
-getMenu("nineTen", "").then(console.log);
-
 const sanitizeMealItems = items => {
   const wordsToDelete = ['condiments', 'black beans', "chef's special", 'bar indian', 'bar carribean', 'bar pasta', 'hawaiian bar', 'steamed rice', 'bar rice bowl', 'steamed basmati rice', 'steamed brown rice', 'thai green curry sauce'];
 
@@ -61,3 +58,12 @@ const sanitizeMealItems = items => {
   });
   return out;
 };  
+
+module.exports = async function (context, req) {
+    context.log('JavaScript HTTP trigger function processed a request.');
+
+    context.res = {
+        status: 200,
+        body: {fulfillmentText: "Hello, azure world"}
+    };
+};
