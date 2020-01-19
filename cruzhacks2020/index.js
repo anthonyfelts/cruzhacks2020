@@ -60,7 +60,7 @@ const fetchData = async (siteUrl) => {
 };
 
 const sanitizeMealItems = items => {
-  const wordsToDelete = ['condiments', 'black beans', "chef's special", 'bar indian', 'bar carribean', 'bar pasta', 'hawaiian bar', 'steamed rice', 'bar rice bowl', 'steamed basmati rice', 'steamed brown rice', 'thai green curry sauce'];
+  const wordsToDelete = ['condiments', 'black beans', "chef's special", 'bar indian', 'bar carribean', 'bar pasta', 'hawaiian bar', 'steamed rice', 'bar rice bowl', 'steamed basmati rice', 'steamed brown rice', 'thai green curry sauce', 'hard-boiled cage free eggs', 'cage-free scrambled eggs', 'cheese pizza', 'sticky rice', 'oven roasted allergen free chicken thigh'];
 
   var out = {};
   Object.keys(items).map(k => {
@@ -68,7 +68,7 @@ const sanitizeMealItems = items => {
   });
   return out;
 };
-
+getMenu('9/10').then(console.log);
 // MAKE RESPONSE AND PRETTY LIST HERE
 
 const makeResponse = (dininghall, meal, arrayMenu) => {
