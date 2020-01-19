@@ -1,18 +1,25 @@
-# CruzHacks2020 - UCSC Dining Hall Google/Alexa Skill
-### Team: Anna Elise Wong, Talya Israel, Aram Chemishkian, Cole Scott, Anthony Felts
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+#
+# Project Name: CruzHacks2020 - UCSC Dining Hall Google/Alexa Skill
+# Team: Anna Elise Wong, Talya Israel, Aram Chemishkian, Cole Scott, Anthony Felts
+# Date: 01-19-2020
+#
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
 
 #### Inspiration
 Most students at UCSC have at some point been frustrated with the terrible food menu website that the dining hall releases, and the challenge to pull it up on a mobile device. You finally open the website and are bombarded with the many unessential items that are standard. (ie. Cheese Pizza, Rice). Then when a generous student finally seems to have the solution (i.e. by sending out a text message to ‘subscribers’ of the dining hall options for the day), it proves to be unsustainable in some way (effort needed, financially, etc.) and is shut down after being implemented for under a year. That’s where our app comes in. It provides light and reliable voice access to the UCSC dining hall menus that can be deployed entirely in the free tier of the services it uses.
 
 #### What it does
-Our project is a google assistant and alexa skill which supports voice queries about dining hall food menus. It supports queries about current time dining hall offerings as well meal based queries.
+Our project is a Google Assistant and Alexa skill which supports voice queries about UCSC dining hall food menus. It supports queries about current time dining hall offerings as well meal based queries.
 
 #### Design Desisions
 We choose to use DialogFlow for the main intent processing and a NodeJS webhook backend. The DialogFlow interface was used to train for intents and connect to the webhook backend. The backend has two main functions: It must scrape the UCSC dining hall website for menus and also serve those menus to the assistant webhook. We decided to use Azure Function Apps for the assistant webhooks because we were looking for more experience with Azure and it provides essentially the same functionality as AWS Lambdas. The scraper is implemented using Cheerio, a jQuery-like library for node. From this we were able to pull out specific menu items from each meal and query the dietary restrictions. We then are able to remove blacklisted items such as “Condiments” and “Cereal” which do not add anything useful to the menu and just make the readback longer.
 
 #### Blockers
- * We ran into some challenges almost immediately with scraping the UCSC dining hall menu website. The site uses server-side rendering so there is no easy api endpoints we can just hit. The html that the site returns is also very messy and hard to do scraping on, leading to a bit of less than pretty code for parsing the output.
- * We also ran into issues with the Azure Function Apps not having amazing documentation. Many of the docs are out of date or list options that do not exist. This lead to a few hours of fighting with the azure cli to get manual deployment to the function apps working.
+ * We ran into some challenges almost immediately with scraping the UCSC dining hall menu website. The site uses server-side rendering so there is no easy API endpoints we can just hit. The HTML that the site returns is also very messy and hard to do scraping on, leading to a bit of less-than-pretty code for parsing the output.
+ * We also ran into issues with the Azure Function Apps not having amazing documentation. Many of the docs are out of date or list options that do not exist. This lead to a few hours of fighting with the Azure CLI to get manual deployment to the function apps working.
 
 #### Accomplishments that we are proud of
 The accomplishments that we are proud of is the project as a whole. Because this project was such a foreign concept to most of the group (down to the programming language that we used), it was a challenge to even write the basic for the project at first. To have a whole, working project at the end of this ~24 hours, and to have learned so much about javascript, MongoDB, DialogFlow, and how all the components work together is a huge accomplishment in itself and something that we are very proud of.
